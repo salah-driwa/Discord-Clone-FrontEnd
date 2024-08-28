@@ -1,6 +1,6 @@
 import { HiOutlineMicrophone, HiOutlineVideoCamera } from "react-icons/hi";
-import { MdHeadset, MdSettings } from "react-icons/md";
-import { FaMicrophoneSlash, FaHeadsetSlash } from "react-icons/fa";
+import { MdHeadset, MdHeadsetOff, MdSettings } from "react-icons/md";
+import { FaMicrophoneSlash } from "react-icons/fa";
 
 const VoiceConnected = () => {
   return (
@@ -28,21 +28,22 @@ const VoiceConnected = () => {
       </div>
 
       {/* User Information */}
-      <div className="flex items-center mt-6 space-x-3 p-2 bg-Dsecondary rounded-lg">
+      <div className="flex items-center mt-6 space-x-3 p-2 bg-DsecondaryStuff rounded-lg">
         <img
           src="https://truedark-portfolio.netlify.app/static/media/profile-pic.4a0f77e9f4fd19b7adf5.png"
           alt="TrueDark"
           className="w-10 h-10 rounded-full"
         />
         <div>
-          <p className="font-semibold">TrueDark</p>
-          <p className="text-sm text-gray-400">Idle</p>
+          <p className="font-semibold">TrueDarkssssssss</p>
+          <p className="text-sm text-gray-400">Idle </p>
         </div>
 
         {/* Mute/Deafen Icons */}
-        <div className="ml-auto flex items-center space-x-2">
+        <div className="flex items-center space-x-2">
           <FaMicrophoneSlash className="text-red-600" size={20} />
-          <FaHeadsetSlash className="text-red-600" size={20} />
+          <MdHeadsetOff className="text-red-600" size={20} />
+
           <MdSettings className="text-gray-400" size={20} />
         </div>
       </div>
