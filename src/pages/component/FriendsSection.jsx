@@ -1,5 +1,6 @@
 import { CiSearch } from "react-icons/ci";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion"; // Import Framer Motion
 
 const users = [
   { id: 1, name: "Richard Wilson", img: "https://i.pravatar.cc/150?u=1", isOnline: true },
@@ -26,11 +27,20 @@ const users = [
 
 const FriendSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true); // State to simulate loading
 
   // Filter users based on the search query
   const filteredUsers = users.filter(user =>
     user.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Simulate fetching with a 1-second delay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false); // Stop loading after 1 second
+    }, 1000);
+    return () => clearTimeout(timer); // Cleanup on unmount
+  }, []);
 
   return (
     <div className="w-80 overflow-y-auto text-white bg-DsecondaryStuff rounded-t-xl flex flex-col h-screen">
@@ -47,11 +57,31 @@ const FriendSection = () => {
       </div>
 
       <div className="bg-DsecondaryStuff flex flex-col justify-between">
-        <div className="space-y-4">
-          <div className="px-4 flex flex-col gap-5 pb-5">
-            {filteredUsers.length > 0 ? (
+        <div className="space-y-2">
+          <div className="px-2 flex flex-col gap-1 pb-5">
+            {loading ? (
+              // Skeleton loader
+              <div className="space-y-2">
+                {[...Array(20)].map((_, index) => (
+                  <div
+                    key={index}
+                    className="flex gap-4 items-center p-2 rounded-md bg-gray-700 animate-pulse"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-gray-500"></div>
+                    <div className="w-1/2 h-4 bg-gray-500"></div>
+                  </div>
+                ))}
+              </div>
+            ) : filteredUsers.length > 0 ? (
               filteredUsers.map(user => (
-                <div key={user.id} className="relative flex gap-4 items-center space-y-2">
+                <motion.div
+                  key={user.id}
+                  className="relative hover:bg-gray-400/30 cursor-pointer p-2 rounded-md flex gap-4 items-center space-y-2"
+                  initial={{ opacity: 0, y: 0 }} // Initial position and opacity
+                  animate={{ opacity: 1, y: 0 }}  // Final position and opacity
+                  transition={{ duration: 0.3 }}   // Duration of the animation
+                  whileHover={{ scale: 1.05 }} // Scale on hover
+                >
                   <img
                     src={user.img}
                     alt={user.name}
@@ -59,15 +89,13 @@ const FriendSection = () => {
                   />
                   {/* Online/Offline Dot */}
                   <span
-                    className={`size-3 absolute top-6 left-6 z-50 rounded-full border border-gray-900 ${
-                      user.isOnline ? 'bg-green-600' : 'bg-gray-400'
-                    }`}
+                    className={`size-3 absolute top-7 left-10 z-50 rounded-full border border-gray-900 ${user.isOnline ? 'bg-green-600' : 'bg-gray-400'}`}
                   ></span>
                   <p className="text-white">{user.name}</p>
-                </div>
+                </motion.div>
               ))
             ) : (
-              <p className="text-gray-400 ">No users found</p>
+              <p className="text-gray-400">No users found</p>
             )}
           </div>
         </div>
